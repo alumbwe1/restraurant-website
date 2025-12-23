@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flame & Fork Restaurant | Fresh Food in Kitwe</title>
+    <meta
+      name="description"
+      content="Best local restaurant in Kitwe. Fresh meals, great atmosphere, trusted by locals. Open daily for dine-in and takeaway."
+    />
+
+    <!-- Optimized for fast loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --flame-orange: #e85d1c;
+        --warm-red: #d32f2f;
+        --deep-charcoal: #1a1a1a;
+        --warm-cream: #fff8f0;
+        --soft-gray: #f5f5f5;
+        --text-dark: #2c2c2c;
+        --text-light: #666;
+        --accent-gold: #d4a574;
+        --success-green: #2e7d32;
+      }
+
+      /* Navigation */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(26, 26, 26, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        background: rgba(26, 26, 26, 0.98);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.5rem;
+      }
+
+      .nav-logo {
+        font-family: "Crimson Pro", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--flame-orange);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-menu a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-menu a:hover {
+        color: var(--flame-orange);
+      }
+
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--flame-orange);
+        transition: width 0.3s ease;
+      }
+
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+
+      .nav-cta {
+        background: var(--flame-orange);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .nav-cta:hover {
+        background: var(--warm-red);
+        transform: translateY(-2px);
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          position: fixed;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: var(--deep-charcoal);
+          flex-direction: column;
+          padding: 2rem;
+          gap: 1rem;
+          transform: translateY(-100%);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .nav-menu.active {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+      }
+
+      body {
+        font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-dark);
+        line-height: 1.6;
+        background: var(--warm-cream);
+        overflow-x: hidden;
+        padding-top: 80px; /* Account for fixed navbar */
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-family: "Crimson Pro", Georgia, serif;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        letter-spacing: -0.02em;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        letter-spacing: -0.01em;
+      }
+
+      h3 {
+        font-size: clamp(1.25rem, 4vw, 1.75rem);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        background: linear-gradient(
+            135deg,
+            rgba(26, 26, 26, 0.7) 0%,
+            rgba(44, 44, 44, 0.6) 100%
+          ),
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")
+            center/cover;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(0, 0, 0, 0.1) 0%,
+            transparent 50%
+          );
+        animation: heroGlow 8s ease-in-out infinite alternate;
+      }
+
+      @keyframes heroGlow {
+        0% {
+          opacity: 0.5;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero h1 {
+        color: white;
+        margin-bottom: 1rem;
+        text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-tagline {
+        color: var(--warm-cream);
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        margin-bottom: 2.5rem;
+        font-weight: 400;
+        text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+        animation: fadeInUp 1s ease-out 0.2s backwards;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 0.4s backwards;
+      }
+
+      .btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: "DM Sans", sans-serif;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-primary {
+        background: white;
+        color: var(--warm-red);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: var(--warm-red);
+        transform: translateY(-3px);
+      }
+
+      /* Section Styling */
+      section {
+        padding: 5rem 1.5rem;
+        position: relative;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-subtitle {
+        color: var(--flame-orange);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* About Section */
+      .about {
+        background: white;
+        position: relative;
+      }
+
+      .about::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          transparent 48%,
+          var(--soft-gray) 48%,
+          var(--soft-gray) 52%,
+          transparent 52%
+        );
+        opacity: 0.03;
+        pointer-events: none;
+      }
+
+      .about-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .about-story {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+      }
+
+      .trust-badges {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 3rem;
+      }
+
+      .badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        color: var(--flame-orange);
+      }
+
+      .badge-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--flame-orange);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      /* Menu Section */
+      .menu {
+        background: var(--soft-gray);
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .menu-category {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .menu-category::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .menu-category:nth-child(1)::before {
+        background-image: url("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .menu-category:nth-child(2)::before {
+        background-image: url("https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .menu-category:nth-child(3)::before {
+        background-image: url("https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .menu-category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .menu-category h3 {
+        color: var(--warm-red);
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--flame-orange);
+        position: relative;
+        z-index: 2;
+      }
+
+      .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--soft-gray);
+      }
+
+      .menu-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .item-name {
+        font-weight: 600;
+        color: var(--text-dark);
+        flex: 1;
+      }
+
+      .item-price {
+        font-weight: 700;
+        color: var(--flame-orange);
+        white-space: nowrap;
+        margin-left: 1rem;
+      }
+
+      .bestseller {
+        position: relative;
+      }
+
+      .bestseller::before {
+        content: "🔥";
+        position: absolute;
+        left: -1.5rem;
+        font-size: 0.9rem;
+      }
+
+      /* Gallery Section */
+      .gallery {
+        background: white;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 15px;
+        overflow: hidden;
+        background: var(--soft-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .gallery-item:nth-child(1) {
+        background-image: url("https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item:nth-child(2) {
+        background-image: url("https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item:nth-child(3) {
+        background-image: url("https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item:nth-child(4) {
+        background-image: url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item:nth-child(5) {
+        background-image: url("https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item:nth-child(6) {
+        background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+      }
+
+      .gallery-item::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(232, 93, 28, 0.8),
+          rgba(211, 47, 47, 0.8)
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .gallery-item:hover::after {
+        opacity: 1;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+      }
+
+      .gallery-placeholder {
+        font-size: 3rem;
+        opacity: 0;
+        position: relative;
+        z-index: 2;
+        color: white;
+        transition: opacity 0.3s ease;
+      }
+
+      .gallery-item:hover .gallery-placeholder {
+        opacity: 1;
+      }
+
+      /* Contact Section */
+      .contact {
+        background: var(--deep-charcoal);
+        color: white;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+        margin-top: 3rem;
+      }
+
+      .contact-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .contact-card h3 {
+        color: var(--flame-orange);
+        margin-bottom: 1rem;
+      }
+
+      .contact-detail {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .contact-detail a {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .contact-detail a:hover {
+        color: var(--flame-orange);
+      }
+
+      .hours-list {
+        list-style: none;
+      }
+
+      .hours-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .map-container {
+        width: 100%;
+        height: 400px;
+        background: var(--soft-gray);
+        border-radius: 15px;
+        overflow: hidden;
+        margin-top: 2rem;
+      }
+
+      .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Social Proof */
+      .testimonials {
+        background: var(--warm-cream);
+      }
+
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .testimonial {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+
+      .testimonial::before {
+        content: '"';
+        font-size: 5rem;
+        color: var(--flame-orange);
+        opacity: 0.2;
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        font-family: Georgia, serif;
+      }
+
+      .testimonial-text {
+        position: relative;
+        font-style: italic;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .testimonial-author {
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+
+      .stars {
+        color: var(--accent-gold);
+        margin-bottom: 1rem;
+      }
+
+      /* Pricing Section */
+      .pricing {
+        background: linear-gradient(
+          135deg,
+          var(--deep-charcoal) 0%,
+          #2c2c2c 100%
+        );
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 93, 28, 0.1) 0%,
+          transparent 70%
+        );
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+      }
+
+      .pricing-container {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .pricing-intro {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .pricing-intro h2 {
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .pricing-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+      }
+
+      .value-proposition {
+        background: rgba(232, 93, 28, 0.1);
+        border: 2px solid var(--flame-orange);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .value-list {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .value-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.05rem;
+      }
+
+      .value-list li::before {
+        content: "✓";
+        color: var(--success-green);
+        font-weight: 700;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+      }
+
+      .pricing-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .pricing-card {
+        background: white;
+        color: var(--text-dark);
+        padding: 2.5rem;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(232, 93, 28, 0.3);
+      }
+
+      .pricing-card.featured {
+        background: linear-gradient(
+          135deg,
+          var(--flame-orange),
+          var(--warm-red)
+        );
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .pricing-card.featured h3,
+      .pricing-card.featured .pricing-amount {
+        color: white;
+      }
+
+      .pricing-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--flame-orange);
+        margin-bottom: 1rem;
+      }
+
+      .pricing-card.featured .pricing-label {
+        color: var(--warm-cream);
+      }
+
+      .pricing-amount {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--warm-red);
+        margin: 1rem 0;
+        font-family: "Crimson Pro", serif;
+      }
+
+      .pricing-period {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+      }
+
+      .pricing-card.featured .pricing-period {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .pricing-features {
+        list-style: none;
+        text-align: left;
+        margin: 2rem 0;
+      }
+
+      .pricing-features li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--soft-gray);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .pricing-card.featured .pricing-features li {
+        border-bottom-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .pricing-features li::before {
+        content: "✓";
+        color: var(--success-green);
+        font-weight: 700;
+      }
+
+      .pricing-card.featured .pricing-features li::before {
+        color: var(--warm-cream);
+      }
+
+      /* Final CTA Section */
+      .final-cta {
+        background: var(--flame-orange);
+        color: white;
+        text-align: center;
+        padding: 4rem 1.5rem;
+      }
+
+      .final-cta h2 {
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .cta-urgency {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+      }
+
+      .cta-value {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto 2.5rem;
+        opacity: 0.95;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-cta {
+        background: white;
+        color: var(--flame-orange);
+        padding: 1.25rem 3rem;
+        font-size: 1.2rem;
+      }
+
+      .btn-cta:hover {
+        background: var(--deep-charcoal);
+        color: white;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--deep-charcoal);
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+        padding: 2rem 1.5rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        section {
+          padding: 3rem 1rem;
+        }
+
+        .hero {
+          min-height: 85vh;
+        }
+
+        .btn {
+          padding: 0.875rem 2rem;
+          font-size: 1rem;
+        }
+
+        .menu-grid,
+        .gallery-grid,
+        .testimonial-grid,
+        .pricing-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .pricing-card.featured {
+          transform: scale(1);
+        }
+      }
+
+      /* Accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Additional Animations */
+      .fade-in-item {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Enhanced hover effects */
+      .btn {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      /* Pulse animation for CTA buttons */
+      .nav-cta,
+      .btn-primary {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(232, 93, 28, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(232, 93, 28, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(232, 93, 28, 0);
+        }
+      }
+
+      /* Loading optimization */
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="#" class="nav-logo">🔥 Flame & Fork</a>
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#location">Location</a></li>
+          <li><a href="tel:+260950688693" class="nav-cta">📞 Call Now</a></li>
+        </ul>
+        <button class="mobile-menu-toggle">☰</button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>Flame & Fork Restaurant</h1>
+        <p class="hero-tagline">Great food, made fresh daily in Kitwe</p>
+        <div class="hero-actions">
+          <a href="tel:+260950688693" class="btn btn-primary">📞 Call Now</a>
+          <a
+            href="https://wa.me/260950688693?text=Hi%20Flame%20%26%20Fork!%20I%27d%20like%20to%20make%20a%20reservation"
+            class="btn btn-secondary"
+            >💬 WhatsApp</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-subtitle">Our Story</p>
+          <h2>Trusted by Kitwe Families Since 2018</h2>
+        </div>
+        <div class="about-content">
+          <p class="about-story">
+            Flame & Fork started with a simple mission: bring authentic,
+            delicious meals to the heart of Kitwe. We source fresh ingredients
+            locally, support our community, and serve every meal with pride.
+            Whether you're stopping by for lunch or bringing the family for
+            dinner, we treat you like family.
+          </p>
+          <p class="about-story">
+            Over 5,000 satisfied customers trust us for consistent quality,
+            generous portions, and that home-cooked taste you can't find
+            anywhere else.
+          </p>
+          <div class="trust-badges">
+            <div class="badge">
+              <div class="badge-icon">5+</div>
+              <span>Years Serving Kitwe</span>
+            </div>
+            <div class="badge">
+              <div class="badge-icon">✓</div>
+              <span>100% Fresh Ingredients</span>
+            </div>
+            <div class="badge">
+              <div class="badge-icon">★</div>
+              <span>Local Favorite</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-subtitle">Our Menu</p>
+          <h2>Fresh Meals Made Daily</h2>
+        </div>
+        <div class="menu-grid">
+          <!-- Main Meals -->
+          <div class="menu-category">
+            <h3>Main Meals</h3>
+            <div class="menu-item bestseller">
+              <span class="item-name">Grilled Chicken & Chips</span>
+              <span class="item-price">K85</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Beef Stew with Nshima</span>
+              <span class="item-price">K70</span>
+            </div>
+            <div class="menu-item bestseller">
+              <span class="item-name">Fish & Rice</span>
+              <span class="item-price">K95</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Vegetable Curry</span>
+              <span class="item-price">K60</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">T-Bone Steak</span>
+              <span class="item-price">K150</span>
+            </div>
+          </div>
+
+          <!-- Drinks -->
+          <div class="menu-category">
+            <h3>Drinks & Beverages</h3>
+            <div class="menu-item">
+              <span class="item-name">Fresh Fruit Juice</span>
+              <span class="item-price">K25</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Soft Drinks</span>
+              <span class="item-price">K15</span>
+            </div>
+            <div class="menu-item bestseller">
+              <span class="item-name">Milkshakes (All Flavors)</span>
+              <span class="item-price">K35</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Ice Cold Beer</span>
+              <span class="item-price">K20</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Coffee / Tea</span>
+              <span class="item-price">K18</span>
+            </div>
+          </div>
+
+          <!-- Daily Specials -->
+          <div class="menu-category">
+            <h3>Daily Specials</h3>
+            <div class="menu-item bestseller">
+              <span class="item-name">Monday: Braai Combo</span>
+              <span class="item-price">K120</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Wednesday: Family Platter</span>
+              <span class="item-price">K280</span>
+            </div>
+            <div class="menu-item bestseller">
+              <span class="item-name">Friday: Fish Special</span>
+              <span class="item-price">K85</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Sunday: Full Breakfast</span>
+              <span class="item-price">K65</span>
+            </div>
+            <div class="menu-item">
+              <span class="item-name">Dessert of the Day</span>
+              <span class="item-price">K30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-subtitle">Our Restaurant</p>
+          <h2>See What We're All About</h2>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <span class="gallery-placeholder">🍗</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-placeholder">🥘</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-placeholder">🍔</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-placeholder">🏪</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-placeholder">👨‍🍳</span>
+          </div>
+          <div class="gallery-item">
+            <span class="gallery-placeholder">🍽️</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-subtitle">Customer Love</p>
+          <h2>What Our Customers Say</h2>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              Best food in Kitwe! I bring my family here every weekend. The
+              grilled chicken is unbeatable and the portions are very generous.
+            </p>
+            <p class="testimonial-author">— Grace M., Local Customer</p>
+          </div>
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              Always fresh, always on time. I order takeaway for my office lunch
+              almost daily. The staff are friendly and the prices are fair.
+            </p>
+            <p class="testimonial-author">— John K., Business Owner</p>
+          </div>
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              This is my go-to place when I want quality food that reminds me of
+              home. Clean environment and great service every time.
+            </p>
+            <p class="testimonial-author">— Chanda B., Kitwe Resident</p>
+          </div>
+        </div>
+        <div
+          style="
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--flame-orange);
+          "
+        >
+          Trusted by over 5,000 local customers in Kitwe
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Location Section -->
+    <section class="contact" id="location">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-subtitle">Visit Us</p>
+          <h2>Location & Contact</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>📍 Our Address</h3>
+            <p class="contact-detail">
+              Plot 123, Freedom Avenue<br />
+              Riverside, Kitwe<br />
+              Copperbelt Province
+            </p>
+            <a
+              href="https://maps.google.com"
+              class="btn btn-primary"
+              style="margin-top: 1rem; display: inline-block"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+
+          <div class="contact-card">
+            <h3>📞 Call or WhatsApp</h3>
+            <p class="contact-detail">
+              <a href="tel:+260950688693">+260 95 068 8693</a>
+            </p>
+            <p class="contact-detail">
+              <a href="tel:+260773382963">+260 77 338 2963</a>
+            </p>
+            <p style="margin-top: 1rem; opacity: 0.8">
+              Available for calls, SMS, and WhatsApp orders
+            </p>
+          </div>
+
+          <div class="contact-card">
+            <h3>🕐 Opening Hours</h3>
+            <ul class="hours-list">
+              <li>
+                <span>Monday - Friday</span> <span>9:00 AM - 9:00 PM</span>
+              </li>
+              <li><span>Saturday</span> <span>10:00 AM - 10:00 PM</span></li>
+              <li><span>Sunday</span> <span>11:00 AM - 8:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.5!2d28.2!3d-12.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDQ4JzAwLjAiUyAyOMKwMTInMDAuMCJF!5e0!3m2!1sen!2szm!4v1234567890"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+      <div class="pricing-container">
+        <div class="pricing-intro">
+          <p class="section-subtitle" style="color: var(--flame-orange)">
+            Get Your Restaurant Online
+          </p>
+          <h2>Professional Website Package</h2>
+          <p class="pricing-subtitle">
+            Stand out from competitors. Get more customers. Everything you need
+            to succeed online.
+          </p>
+        </div>
+
+        <div class="value-proposition">
+          <h3 style="color: white; margin-bottom: 1rem; text-align: center">
+            What's Included:
+          </h3>
+          <ul class="value-list">
+            <li>Mobile-friendly website design</li>
+            <li>Fast loading (optimized for Zambian internet)</li>
+            <li>Click-to-call phone buttons</li>
+            <li>Google Maps integration</li>
+            <li>Menu with prices displayed</li>
+            <li>Photo gallery section</li>
+            <li>Customer testimonials</li>
+            <li>Social media links</li>
+            <li>WhatsApp integration</li>
+            <li>Monthly updates & maintenance</li>
+            <li>24/7 website hosting</li>
+            <li>Free domain name (.co.zm)</li>
+          </ul>
+        </div>
+
+        <div class="pricing-cards">
+          <div class="pricing-card">
+            <p class="pricing-label">One-Time Setup</p>
+            <h3>Website Design & Launch</h3>
+            <div class="pricing-amount">K3,500</div>
+            <p class="pricing-period">Paid once</p>
+            <ul class="pricing-features">
+              <li>Custom website design</li>
+              <li>Professional setup</li>
+              <li>Domain registration</li>
+              <li>Content upload</li>
+              <li>Testing & optimization</li>
+              <li>Launch support</li>
+            </ul>
+          </div>
+
+          <div class="pricing-card featured">
+            <p class="pricing-label">Monthly Hosting</p>
+            <h3>Keep Your Website Running</h3>
+            <div class="pricing-amount">K350</div>
+            <p class="pricing-period">per month</p>
+            <ul class="pricing-features">
+              <li>Fast & reliable hosting</li>
+              <li>Menu & price updates</li>
+              <li>New photos uploaded</li>
+              <li>Technical support</li>
+              <li>Security updates</li>
+              <li>Performance monitoring</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+          "
+        >
+          <h3 style="color: white; margin-bottom: 1rem">
+            🎯 Why You Need This
+          </h3>
+          <p
+            style="
+              font-size: 1.1rem;
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            Most restaurants in Kitwe still don't have a website. When customers
+            search "restaurants near me" or ask Google for directions, they find
+            your competitors — not you. This website gives you a competitive
+            advantage and helps customers find you 24/7, even when you're
+            closed.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+      <div class="container">
+        <h2>Get Your Restaurant Online in 48 Hours</h2>
+        <p class="cta-urgency">
+          Limited spots available this month — First 5 restaurants get 20% OFF
+          setup
+        </p>
+        <p class="cta-value">
+          Stop losing customers to restaurants with better online presence. Join
+          successful Kitwe businesses that are getting discovered online every
+          single day.
+        </p>
+        <div class="cta-buttons">
+          <a
+            href="https://wa.me/260950688693?text=I%20want%20a%20website%20for%20my%20restaurant"
+            class="btn btn-cta"
+          >
+            💬 WhatsApp Us Now
+          </a>
+          <a href="tel:+260950688693" class="btn btn-secondary">
+            📞 Call for Details
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 Flame & Fork Restaurant. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem">
+          Proudly serving Kitwe, Copperbelt Province, Zambia
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      const mobileToggle = document.querySelector(".mobile-menu-toggle");
+      const navMenu = document.querySelector(".nav-menu");
+
+      mobileToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 100) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            // Close mobile menu if open
+            navMenu.classList.remove("active");
+          }
+        });
+      });
+
+      // Add scroll reveal animation
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections except hero
+      document.querySelectorAll("section:not(.hero)").forEach((section) => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(30px)";
+        section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(section);
+      });
+
+      // Add floating animation to menu items
+      document.querySelectorAll(".menu-item").forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+        item.classList.add("fade-in-item");
+      });
+
+      // Add parallax effect to hero
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector(".hero");
+        if (hero) {
+          hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+      });
+    </script>
+  </body>
+</html>
